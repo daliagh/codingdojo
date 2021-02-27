@@ -1,0 +1,67 @@
+
+pragma solidity >=0.6.0 <0.8.1;
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+
+contract TechInsurance is ERC721("NinjaToekn","Ninja") {
+    
+   
+    struct Product {
+        uint productId;
+        string productName;
+        uint price;
+        bool offered;
+    }
+     
+    struct Client {
+        bool isValid;
+        uint time;
+    }
+    
+    
+    mapping(uint => Product) public productIndex;
+    mapping(address => mapping(uint => Client)) public client;
+    
+    uint productCounter;
+    
+    address payable insOwner;
+    constructor(address payable _insOwner) public{
+        insOwner = _insOwner;
+    }
+ 
+    function addProduct(uint _productId, string memory _productName, uint _price ) public {
+ 
+              Product memory NewProduct = Product (_productId , _productName , _price , true);
+              productIndex [productCounter ++] = NewProduct;
+    
+
+    }
+    
+    
+    function doNotOffer(uint _productIndex) public {
+          productIndex[_productIndex].offered = false;
+
+    }
+    
+    function forOffer(uint _productIndex) public {
+         productIndex[_productIndex].offered = true;
+
+    }
+    
+    function changePrice(uint _productIndex, uint _price) public {
+     require(productIndex[_productIndex].price == msg.value, "Not appropriate" );
+        require( productIndex[_productIndex].price == 0, "Not valid index");
+        
+        Client memory newClient;
+        newClient.isValid = true;
+        newClient.time = block.number;
+        client[msg.sender][_productIndex] = newClient;
+        insOwner.transfer(msg.value);
+        
+    }
+    
+   
+    function buyInsurance(uint _productIndex) public payable {
+        
+    } 
+    
+}
