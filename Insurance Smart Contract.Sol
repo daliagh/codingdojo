@@ -61,7 +61,11 @@ contract TechInsurance is ERC721("NinjaToekn","Ninja") {
     
    
     function buyInsurance(uint _productIndex) public payable {
-        
+        require (productIndex[_productIndex].price == msg.value, "Not correct");
+        Client memory AddClient;
+        AddClient.isValid = true;
+        client[msg.sender][_productIndex] = AddClient;
+        insOwner.transfer(msg.value);
     } 
     
 }
