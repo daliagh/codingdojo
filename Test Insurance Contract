@@ -101,9 +101,11 @@ Compiling your contracts...
 
 
 
-  0 passing (2ms)
+  Contract: Insurance
+    √ should add a product (363ms)
 
 
-truffle(develop)>
-undefined
+  1 passing (497ms)
+
+
 truffle(develop)>
